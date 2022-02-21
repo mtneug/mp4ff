@@ -190,7 +190,7 @@ func (m *MdatBox) ReadData(start, size int64, rs io.ReadSeeker) ([]byte, error) 
 		}
 
 		buf := make([]byte, size)
-		n, err := rs.Read(buf)
+		n, err := io.ReadFull(rs, buf)
 		if err != nil {
 			return nil, err
 		}
