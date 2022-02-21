@@ -156,7 +156,7 @@ func (s *Segmenter) GetFullSamplesForInterval(mp4f *mp4.File, tr *Track, startSa
 				return nil, err
 			}
 			sampleData = make([]byte, size)
-			n, err := rs.Read(sampleData)
+			n, err := io.ReadFull(rs, sampleData)
 			if err != nil {
 				return nil, err
 			}

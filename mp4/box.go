@@ -146,7 +146,7 @@ func (b BoxHeader) payloadLen() int {
 // DecodeHeader decodes a box header (size + box type + possiible largeSize)
 func DecodeHeader(r io.Reader) (BoxHeader, error) {
 	buf := make([]byte, boxHeaderSize)
-	n, err := r.Read(buf)
+	n, err := io.ReadFull(r, buf)
 	if err != nil {
 		return BoxHeader{}, err
 	}
@@ -157,7 +157,7 @@ func DecodeHeader(r io.Reader) (BoxHeader, error) {
 	headerLen := boxHeaderSize
 	if size == 1 {
 		buf := make([]byte, largeSizeLen)
-		n, err := r.Read(buf)
+		n, err := io.ReadFull(r, buf)
 		if err != nil {
 			return BoxHeader{}, err
 		}
@@ -356,7 +356,7 @@ func readBoxBody(r io.Reader, h BoxHeader) ([]byte, error) {
 		return nil, nil
 	}
 	body := make([]byte, bodyLen)
-	n, err := r.Read(body)
+	n, err := io.ReadFull(r, body)
 	if err != nil {
 		return nil, err
 	}
